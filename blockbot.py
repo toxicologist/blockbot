@@ -228,5 +228,5 @@ async def price():
     p_usd = f['price_usd']
     return await blockbot.say("Current ChanCoin price is $%s and %s BTC."%(p_usd, p_btc))
 
-blockbot.run("MzM1MDkzODkzMDA1ODM2Mjg4.DJ4tmA.mQiuvj5RDQeV70wiznn8ovL59c4")
+blockbot.run("yourkey")
 
