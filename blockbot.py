@@ -67,7 +67,7 @@ def bytes_2_human_readable(number_of_bytes):
 @blockbot.event
 async def on_ready():
     print("Client logged in")
-    await blockbot.change_presence(game=discord.Game(name='with tatsumaki'))
+    await blockbot.change_presence(game=discord.Game(name='with chancoin'))
     
 #@blockbot.command("help")
 #async def help():
@@ -156,9 +156,9 @@ async def senddownloadlink():
 async def badmeme():
     return await blockbot.say("That was a bad meme and you should feel bad.\n" + "-1.0000 4CHN has been deducted from the memer's wallet.")
 
-@blockbot.command("tip")
-async def tipme():
-    return await blockbot.say("If you enjoy this bot, send tips to CXbaYoKVDWfyXPC4aJaw1KgTPoGxWasov2! Thanks <3")
+#@blockbot.command("tip")
+#async def tipme():
+#    return await blockbot.say("If you enjoy this bot, send tips to CXbaYoKVDWfyXPC4aJaw1KgTPoGxWasov2! Thanks <3")
 
 #@blockbot.command("edgar")
 #async def edgar():
@@ -228,5 +228,5 @@ async def price():
     p_usd = f['price_usd']
     return await blockbot.say("Current ChanCoin price is $%s and %s BTC."%(p_usd, p_btc))
 
-blockbot.run("yourkey")
+blockbot.run("MzM1MDkzODkzMDA1ODM2Mjg4.DJ4tmA.mQiuvj5RDQeV70wiznn8ovL59c4")
 
