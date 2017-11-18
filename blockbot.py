@@ -235,11 +235,11 @@ coinminers = requests.get("http://coinminers.net/api/stats/")
 uj=coinminers.json()
 ujchan = uj["pools"]["chancoin"]
 
-blockbot = Bot(command_prefix="!")
+#blockbot = Bot(command_prefix="!")
 
-@blockbot.event
-async def on_ready():
-    print("Client logged in")
+#@blockbot.event
+#async def on_ready():
+#    print("Client logged in")
 
 @blockbot.command("hashrate")
 async def hashratecheck():
