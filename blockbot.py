@@ -255,5 +255,5 @@ async def hashratecheck():
     string += ("\n\n**Total hashpower (Coinminers):** %s"%ujchan["hashrateString"])
     return await blockbot.say(string)
 
-blockbot.run("MzM1MDkzODkzMDA1ODM2Mjg4.DJ7Myw.m9T7DIQj2SaaKkhaDmuru35qKmU")
+blockbot.run("nothing personell kid")
 
