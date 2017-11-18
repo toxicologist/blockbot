@@ -12,6 +12,9 @@ supplyurl= ("https://www.blockexperts.com/api?coin=4chn&action=getmoneysupply")
 i = 0
 tracking = False
 
+def percentage(whole, part):
+  return 100 * float(part)/float(whole)
+
 def getRoll():
     roll = random.randint(10000000,99999999)
     return roll
@@ -106,11 +109,11 @@ async def getcurrentblock():
     bheight = requests.get(bheighturl)
     return await blockbot.say("Current block is %s."%bheight.text)
 
-@blockbot.command("hashrate")
-async def getcurrenthashrate():
-    hashrate = requests.get(hashrateurl)
-    hashrate_ghs = bytes_2_human_readable(int(hashrate.text))
-    return await blockbot.say("Hashrate as of the last block is %s."%hashrate_ghs)
+#@blockbot.command("hashrate")
+#async def getcurrenthashrate():
+#    hashrate = requests.get(hashrateurl)
+#    hashrate_ghs = bytes_2_human_readable(int(hashrate.text))
+#    return await blockbot.say("Hashrate as of the last block is %s."%hashrate_ghs)
 
 @blockbot.command("difficulty")
 async def getcurrentdiff():
@@ -120,7 +123,7 @@ async def getcurrentdiff():
 @blockbot.command("supply")
 async def getcurrentsupply():
     supply = requests.get(supplyurl)
-    return await blockbot.say("Total ChanCoin supply is %s coins."%supply.text)
+    return await blockbot.say("Total ChanCoin supply is %s coins, %s of which are community-mined (%s%% of the total supply)."%(int(float(supply.text)-3000000), int(float(supply.text)-9000000), str(percentage(float(supply.text)-3000000,int((float(supply.text)-9000000))))[:3]))
 
 @blockbot.command("blockinfo")
 async def getcurrentblockinfo():
@@ -226,7 +229,31 @@ async def price():
     f= json.loads(f.text)[0]
     p_btc = f['price_btc']
     p_usd = f['price_usd']
-    return await blockbot.say("Current ChanCoin price is $%s and %s BTC."%(p_usd, p_btc))
+    return await blockbot.say("Current ChanCoin price is $%s and %s BTC (%s%% change in the last 24h)."%(p_usd, p_btc, f['percent_change_24h']))
 
-blockbot.run("yourkey")
+coinminers = requests.get("http://coinminers.net/api/stats/")
+uj=coinminers.json()
+ujchan = uj["pools"]["chancoin"]
+
+blockbot = Bot(command_prefix="!")
+
+@blockbot.event
+async def on_ready():
+    print("Client logged in")
+
+@blockbot.command("hashrate")
+async def hashratecheck():
+#    hashrate = requests.get(hashrateurl)
+#    hashrate_ghs = bytes_2_human_readable(int(hashrate.text))
+#    return await blockbot.say("Hashrate as of the last block is %s."%hashrate_ghs)
+    hashrate=requests.get(hashrateurl)
+    hashrate_ghs = bytes_2_human_readable(int(hashrate.text))
+    await blockbot.say("Hashrate as of the last block is %s."%hashrate_ghs)
+    string = ("**Coinminers.net workers: **%s\n"%ujchan["workerCount"])
+    for worker in ujchan["workers"]:
+        string += ("\n**%s**: %s"%(worker,ujchan["workers"][worker]["hashrateString"]))
+    string += ("\n\n**Total hashpower (Coinminers):** %s"%ujchan["hashrateString"])
+    return await blockbot.say(string)
+
+blockbot.run("MzM1MDkzODkzMDA1ODM2Mjg4.DJ7Myw.m9T7DIQj2SaaKkhaDmuru35qKmU")
 
